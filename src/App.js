@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.scss';
 import Todolist from './Todolist';
+import Clock from './Clock';
 
 function App() {
     return (
@@ -12,7 +13,10 @@ function App() {
                     <Todolist></Todolist>
                 </div>
                 <div>
-                    <h1>Test</h1>
+                    <Clock></Clock>
+                </div>
+                <div>
+                    <h2>Test</h2>
                 </div>
             </div>
         </div>
