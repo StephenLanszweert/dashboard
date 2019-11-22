@@ -17,12 +17,21 @@
         margin-right: auto;
         div {
             width: 100%;
+            display: flex;
             div {
                 margin-bottom: 1rem;
                 padding: 0.6rem 0;
-                width: 100%;
+                width: 80%;
                 border-radius: 15px;
                 font-size: 1.1rem;
+            }
+            .btns {
+                padding-left: 5%;
+                width: 20%;
+                i {
+                    margin-right: 10%;
+                    cursor: pointer;
+                }
             }
             .notdone,
             .done {
@@ -31,6 +40,7 @@
                     font-size: 1.5rem;
                     float: left;
                     margin-left: 6%;
+                    margin-right: 3%;
                 }
             }
             .notdone {

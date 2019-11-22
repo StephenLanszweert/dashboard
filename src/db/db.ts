@@ -9,6 +9,10 @@ export async function test() {
         {
             name: 'bucht with a very very long title',
             done: false
+        },
+        {
+            name: 'this is a test',
+            done: true
         }
     ];
 }

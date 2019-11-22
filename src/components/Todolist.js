@@ -29,6 +29,10 @@ export default class Todolist extends Component {
                         {this.decideDoneIcon(done)}
                         <span>{name}</span>
                     </div>
+                    <div className='btns'>
+                        {this.decideTodoIcon(done)}
+                        <i className='material-icons'>delete</i>
+                    </div>
                 </div>
             ));
             return (
@@ -48,9 +52,16 @@ export default class Todolist extends Component {
 
     decideDoneIcon(done) {
         if (done) {
-            return <i className='material-icons'>check</i>;
+            return <i className='material-icons'>check_circle_outline</i>;
         } else {
             return <i className='material-icons'>cancel</i>;
+        }
+    }
+    decideTodoIcon(done) {
+        if (done) {
+            return <i className='material-icons'>cancel</i>;
+        } else {
+            return <i className='material-icons'>check</i>;
         }
     }
 }
