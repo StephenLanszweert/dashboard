@@ -1,26 +1,22 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import Todolist from './Todolist';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className='App'>
+            <div className='blur'></div>
+            <h1>Good evening Stephen</h1>
+            <div className='content'>
+                <div>
+                    <Todolist></Todolist>
+                </div>
+                <div>
+                    <h1>Test</h1>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default App;
