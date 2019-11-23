@@ -1,17 +1,17 @@
 import localForage from 'localforage';
 
 export type Todo = {
-	id: number,
-	done: boolean,
-	name: string
-}
+    id: number;
+    done: boolean;
+    name: string;
+};
 
 export default {
-	async todos() {
-		if (await localForage.getItem("todos") === null) {
-			await localForage.setItem("todos", {});
-			await localForage.setItem("todosIndex", 0);
-		}
+    async todos() {
+        if ((await localForage.getItem('todos')) === null) {
+            await localForage.setItem('todos', {});
+            await localForage.setItem('todosIndex', 0);
+        }
 
 		async function nextId() {
 			const id = await localForage.getItem("todosIndex") as number;
@@ -27,8 +27,8 @@ export default {
 			async addTodo(todo: Todo) {
 				todo.id = await nextId();
 
-				const todos = await this.getTodos();
-				todos[todo.id] = todo;
+                const todos = await this.getTodos();
+                todos[todo.id] = todo;
 
 				return localForage.setItem("todos", todos);
 			},

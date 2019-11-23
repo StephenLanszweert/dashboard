@@ -19,8 +19,6 @@ export default class Todolist extends Component {
         const todoDb = await db.todos();
         const todos = await todoDb.getTodos();
 
-        console.log(todos);
-
         this.setState({ todos });
     }
 
@@ -39,25 +37,33 @@ export default class Todolist extends Component {
 
     render() {
         if (this.state.todos) {
-            const todos = this.state.todos.map(({ id, name, done }) => (
-                <div key={id}>
-                    <div className={done ? 'done' : 'notdone'}>
-                        {this.decideDoneIcon(done)}
-                        <span>{name}</span>
+            console.log(this.state.todos);
+            const todos = Object.values(this.state.todos).map(
+                ({ id, name, done }) => (
+                    <div key={id}>
+                        <div className={done ? 'done' : 'notdone'}>
+                            {this.decideDoneIcon(done)}
+                            <span>{name}</span>
+                        </div>
+                        <div className='btns'>
+                            {this.decideTodoIcon(done)}
+                            <i
+                                className='material-icons'
+                                onClick={e => this.deleteTodo(id)}
+                            >
+                                delete
+                            </i>
+                        </div>
                     </div>
-                    <div className='btns'>
-                        {this.decideTodoIcon(done)}
-                        <i className='material-icons'>delete</i>
-                    </div>
-                </div>
-            ));
+                )
+            );
             return (
                 <div className='todolist'>
                     <h2>TodoList</h2>
                     <div className='todos'>{todos}</div>
 
                     <form onSubmit={e => this.addTodo(e)}>
-                        <input name="todo" type="text" placeholder="New Todo" />
+                        <input name='todo' type='text' placeholder='New Todo' />
                         <button>Add</button>
                     </form>
                 </div>
@@ -78,11 +84,14 @@ export default class Todolist extends Component {
             return <i className='material-icons'>cancel</i>;
         }
     }
-    decideTodoIcon(done) {
+    decideTodoIcon(id, done) {
         if (done) {
             return <i className='material-icons'>cancel</i>;
         } else {
             return <i className='material-icons'>check</i>;
         }
+    }
+    deleteTodo(id) {
+        console.log(id);
     }
 }

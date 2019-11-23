@@ -4,8 +4,7 @@ import Todolist from './components/Todolist';
 import Clock from './components/Clock';
 
 export default class App extends Component {
-    constructor(props) {
-        super(props);
+    componentDidMount() {
         this.setTriggerRef = element => {
             element.addEventListener('click', this.toggleModal);
         };
