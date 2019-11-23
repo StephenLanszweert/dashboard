@@ -13,16 +13,34 @@ export default {
 			await localForage.setItem("todosIndex", 0);
 		}
 
+		async function nextId() {
+			const id = await localForage.getItem("todosIndex") as number;
+			await localForage.setItem("todosIndex", id + 1);
+
+			return id;
+		}
+
 		return {
 			getTodos(): Promise<{ [key: number]: Todo }> {
-				return <any>localForage.getItem("todos");
+				return localForage.getItem("todos");
 			},
 			async addTodo(todo: Todo) {
-				todo.id = await localForage.getItem("todosIndex");
-				await localForage.setItem("todosIndex", todo.id + 1);
+				todo.id = await nextId();
 
 				const todos = await this.getTodos();
 				todos[todo.id] = todo;
+
+				return localForage.setItem("todos", todos);
+			},
+			async updateTodo(todo: Todo) {
+				const todos = await this.getTodos();
+				todos[todo.id] = todo;
+
+				return localForage.setItem("todos", todos);
+			},
+			async removeTodo(id: number) {
+				const todos = await this.getTodos();
+				delete todos[id];
 
 				return localForage.setItem("todos", todos);
 			}
