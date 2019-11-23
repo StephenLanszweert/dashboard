@@ -1,0 +1,51 @@
+.todolist {
+    text-align: center;
+    background-color: rgba(150, 146, 146, 0.693);
+    border-radius: 10px;
+    width: 65%;
+    margin-left: 5vw;
+    padding-bottom: 10vh;
+    margin-top: -10vh;
+    h2 {
+        padding-top: 2rem;
+        padding-left: 2rem;
+        padding-right: 2rem;
+    }
+    .todos {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        div {
+            width: 100%;
+            display: flex;
+            div {
+                margin-bottom: 1rem;
+                padding: 0.6rem 0;
+                width: 80%;
+                border-radius: 15px;
+                font-size: 1.1rem;
+            }
+            .btns {
+                padding-left: 5%;
+                width: 20%;
+                i {
+                    margin-right: 10%;
+                    cursor: pointer;
+                }
+            }
+            .notdone,
+            .done {
+                background-color: rgba(5, 66, 11, 0.651);
+                i {
+                    font-size: 1.5rem;
+                    float: left;
+                    margin-left: 6%;
+                    margin-right: 3%;
+                }
+            }
+            .notdone {
+                background-color: rgba(75, 45, 45, 0.651);
+            }
+        }
+    }
+}

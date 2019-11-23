@@ -1,4 +1,4 @@
-import localForage from "localforage";
+import localForage from 'localforage';
 
 export type Todo = {
 	id: number,
