@@ -19,8 +19,6 @@ export default class Todolist extends Component {
         const todoDb = await db.todos();
         const todos = await todoDb.getTodos();
 
-        console.log(todos);
-
         this.setState({ todos });
     }
 
@@ -49,7 +47,12 @@ export default class Todolist extends Component {
                         </div>
                         <div className='btns'>
                             {this.decideTodoIcon(done)}
-                            <i className='material-icons'>delete</i>
+                            <i
+                                className='material-icons'
+                                onClick={e => this.deleteTodo(id)}
+                            >
+                                delete
+                            </i>
                         </div>
                     </div>
                 )
@@ -81,11 +84,14 @@ export default class Todolist extends Component {
             return <i className='material-icons'>cancel</i>;
         }
     }
-    decideTodoIcon(done) {
+    decideTodoIcon(id, done) {
         if (done) {
             return <i className='material-icons'>cancel</i>;
         } else {
             return <i className='material-icons'>check</i>;
         }
+    }
+    deleteTodo(id) {
+        console.log(id);
     }
 }
