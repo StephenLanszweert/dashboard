@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Todolist.scss';
-import { test } from '../db/db';
+import db from '../db/db';
 
 export default class Todolist extends Component {
     constructor(props) {
@@ -16,16 +16,32 @@ export default class Todolist extends Component {
     }
 
     async loadData() {
-        this.setState({
-            todos: await test()
+        const todoDb = await db.todos();
+        const todos = await todoDb.getTodos();
+
+        console.log(todos);
+
+        this.setState({ todos });
+    }
+
+    async addTodo(e) {
+        e.preventDefault();
+        const newTodo = e.target.todo.value;
+        const todoDb = await db.todos();
+
+        await todoDb.addTodo({
+            name: newTodo,
+            done: false
         });
+
+        this.loadData();
     }
 
     render() {
         if (this.state.todos) {
-            const todos = this.state.todos.map(({ name, done }) => (
-                <div>
-                    <div key={name} className={done ? 'done' : 'notdone'}>
+            const todos = this.state.todos.map(({ id, name, done }) => (
+                <div key={id}>
+                    <div className={done ? 'done' : 'notdone'}>
                         {this.decideDoneIcon(done)}
                         <span>{name}</span>
                     </div>
@@ -39,6 +55,11 @@ export default class Todolist extends Component {
                 <div className='todolist'>
                     <h2>TodoList</h2>
                     <div className='todos'>{todos}</div>
+
+                    <form onSubmit={e => this.addTodo(e)}>
+                        <input name="todo" type="text" placeholder="New Todo" />
+                        <button>Add</button>
+                    </form>
                 </div>
             );
         } else {

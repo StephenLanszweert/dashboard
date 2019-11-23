@@ -25,24 +25,24 @@ export default class Todolist extends Component {
         this.setState({ todos });
     }
 
-    async addTodo(e) {
-        e.preventDefault();
-        const newTodo = e.target.todo.value;
-        const todoDb = await db.todos();
-
-        await todoDb.addTodo({
-            name: newTodo,
-            done: false
-        });
-
-        this.loadData();
+    decideDoneIcon(done) {
+        if (done) {
+            return <i className='material-icons'>check</i>;
+        } else {
+            return <i className='material-icons'>cancel</i>;
+        }
     }
 
     render() {
         if (this.state.todos) {
             const todos = Object.values(this.state.todos).map(({ id, name, done }) => {
                 return (
-                    <div key={id} className={done ? "done" : "notdone"}>{name}</div>
+                    <div>
+                        <div key={id} className={done ? 'done' : 'notdone'}>
+                            {this.decideDoneIcon(done)}
+                            <span>{name}</span>
+                        </div>
+                    </div>
                 )
             });
             return (
