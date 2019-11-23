@@ -11,13 +11,25 @@ export default class Todolist extends Component {
         this.state.todos = null;
     }
 
-    componentDidMount() {
+    async componentDidMount() {
+        this.todoDb = await db.todos();
+        this.loadData();
+    }
+
+    // DATA
+
+    async deleteTodo(id) {
+        await this.todoDb.removeTodo(id);
+        this.loadData();
+    }
+
+    async toggleTodo(id) {
+        await this.todoDb.toggleTodo(id);
         this.loadData();
     }
 
     async loadData() {
-        const todoDb = await db.todos();
-        const todos = await todoDb.getTodos();
+        const todos = await this.todoDb.getTodos();
 
         this.setState({ todos });
     }
@@ -25,15 +37,16 @@ export default class Todolist extends Component {
     async addTodo(e) {
         e.preventDefault();
         const newTodo = e.target.todo.value;
-        const todoDb = await db.todos();
 
-        await todoDb.addTodo({
+        await this.todoDb.addTodo({
             name: newTodo,
             done: false
         });
 
         this.loadData();
     }
+
+    // RENDER
 
     render() {
         if (this.state.todos) {
@@ -46,7 +59,7 @@ export default class Todolist extends Component {
                             <span>{name}</span>
                         </div>
                         <div className='btns'>
-                            {this.decideTodoIcon(done)}
+                            {this.decideTodoIcon(id, done)}
                             <i
                                 className='material-icons'
                                 onClick={e => this.deleteTodo(id)}
@@ -78,20 +91,9 @@ export default class Todolist extends Component {
     }
 
     decideDoneIcon(done) {
-        if (done) {
-            return <i className='material-icons'>check_circle_outline</i>;
-        } else {
-            return <i className='material-icons'>cancel</i>;
-        }
+        return <i className='material-icons'>{done ? "check_circle_outline" : "cancel"}</i>;
     }
     decideTodoIcon(id, done) {
-        if (done) {
-            return <i className='material-icons'>cancel</i>;
-        } else {
-            return <i className='material-icons'>check</i>;
-        }
-    }
-    deleteTodo(id) {
-        console.log(id);
+        return <i onClick={e => this.toggleTodo(id)} className='material-icons'>{done ? "cancel" : "check"}</i>;
     }
 }
