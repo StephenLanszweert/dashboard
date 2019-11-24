@@ -6,9 +6,10 @@ export default class Todolist extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {};
-
-        this.state.todos = null;
+        this.state = {
+            todos: [],
+            newTodo: ''
+        };
     }
 
     async componentDidMount() {
@@ -30,19 +31,22 @@ export default class Todolist extends Component {
 
     async loadData() {
         const todos = await this.todoDb.getTodos();
-
         this.setState({ todos });
     }
 
+    handleTodoChange = e => {
+        this.setState({ newTodo: e.target.value });
+    };
+
     async addTodo(e) {
         e.preventDefault();
-        const newTodo = e.target.todo.value;
-
         await this.todoDb.addTodo({
-            name: newTodo,
+            name: this.state.newTodo,
             done: false
         });
-
+        this.setState({
+            newTodo: ''
+        });
         this.loadData();
     }
 
@@ -50,7 +54,6 @@ export default class Todolist extends Component {
 
     render() {
         if (this.state.todos) {
-            console.log(this.state.todos);
             const todos = Object.values(this.state.todos).map(
                 ({ id, name, done }) => (
                     <div key={id}>
@@ -73,12 +76,24 @@ export default class Todolist extends Component {
             return (
                 <div className='todolist'>
                     <h2>TodoList</h2>
-                    <div className='todos'>{todos}</div>
-
                     <form onSubmit={e => this.addTodo(e)}>
-                        <input name='todo' type='text' placeholder='New Todo' />
-                        <button>Add</button>
+                        <input
+                            name='todo'
+                            type='text'
+                            value={this.state.newTodo}
+                            onChange={this.handleTodoChange}
+                            placeholder='New Todo'
+                        />
+                        <button className='addTodoButton'>
+                            <i className='material-icons'>
+                                check_circle_outline
+                            </i>
+                        </button>
                     </form>
+                    <div className='todos'>
+                        {this.checkForZeroTodos()}
+                        {todos}
+                    </div>
                 </div>
             );
         } else {
@@ -90,10 +105,27 @@ export default class Todolist extends Component {
         }
     }
 
+    checkForZeroTodos() {
+        if (
+            Object.entries(this.state.todos).length === 0 &&
+            this.state.todos.constructor === Object
+        ) {
+            return <p>There are currently no todos you have set</p>;
+        }
+    }
+
     decideDoneIcon(done) {
-        return <i className='material-icons'>{done ? "check_circle_outline" : "cancel"}</i>;
+        return (
+            <i className='material-icons'>
+                {done ? 'check_circle_outline' : 'cancel'}
+            </i>
+        );
     }
     decideTodoIcon(id, done) {
-        return <i onClick={e => this.toggleTodo(id)} className='material-icons'>{done ? "cancel" : "check"}</i>;
+        return (
+            <i onClick={e => this.toggleTodo(id)} className='material-icons'>
+                {done ? 'cancel' : 'check'}
+            </i>
+        );
     }
 }

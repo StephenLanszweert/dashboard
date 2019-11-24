@@ -6,6 +6,8 @@
     margin-left: 5vw;
     padding-bottom: 10vh;
     margin-top: -10vh;
+    overflow-y: scroll;
+    height: 60vh;
     h2 {
         padding-top: 2rem;
         padding-left: 2rem;
@@ -45,6 +47,36 @@
             }
             .notdone {
                 background-color: rgba(75, 45, 45, 0.651);
+            }
+        }
+    }
+    form {
+        width: 100%;
+        margin-bottom: 5%;
+        input {
+            padding: 3%;
+            border: none;
+            border-radius: 15px;
+            width: 90%;
+            margin-right: auto;
+            margin-left: auto;
+            transition: all 1s ease-out;
+            &:focus {
+                outline: none;
+                border: none;
+                border: 1px solid blue;
+            }
+        }
+        .addTodoButton {
+            background-color: transparent;
+            border: none;
+            bottom: 4.3vh;
+            left: 10vw;
+            position: relative;
+            color: rgb(122, 170, 27);
+            cursor: pointer;
+            &:focus {
+                outline: none;
             }
         }
     }
