@@ -1,12 +1,40 @@
 import localForage from 'localforage';
 
 export type Todo = {
-	id: number;
-	done: boolean;
-	name: string;
-};
+	id: number,
+	done: boolean,
+	name: string,
+	dueDate: Date
+}
+
+export type PersonConfig = {
+	name: string
+}
 
 export default {
+	async personal() {
+		if ((await localForage.getItem('personal')) === null)
+			await localForage.setItem('personal', {});
+
+		return {
+			async getPersonal(): Promise<PersonConfig> {
+				return localForage.getItem('personal');
+			},
+			async updatePersonal(newPersonal: any): Promise<PersonConfig> {
+				console.log(newPersonal);
+
+				const personal = await this.getPersonal();
+
+				if (newPersonal.name)
+					personal.name = newPersonal.name;
+
+				return localForage.setItem('personal', personal);
+			},
+			async setPersonal(personal: PersonConfig) {
+				return localForage.setItem('personal', personal);
+			}
+		}
+	},
 	async todos() {
 		if ((await localForage.getItem('todos')) === null) {
 			await localForage.setItem('todos', {});

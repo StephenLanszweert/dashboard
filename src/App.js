@@ -3,6 +3,8 @@ import './App.scss';
 import Todolist from './components/Todolist';
 import Clock from './components/Clock';
 
+import db from "./db/db"
+
 export default class App extends Component {
     constructor(props) {
         super(props);
@@ -20,15 +22,32 @@ export default class App extends Component {
             this.modal.classList.toggle('show-modal');
         };
         window.addEventListener('click', this.windowOnClick);
+
+        this.state = {
+            personal: null
+        }
     }
+
+    async componentDidMount() {
+        this.personalDb = await db.personal();
+        this.setState({
+            personal: await this.personalDb.getPersonal()
+        });
+    }
+
     render() {
+        const greeting = this.state.personal && this.state.personal.name ? (
+            <h1>Good evening {this.state.personal.name}</h1>
+        ) : (
+                <h1>Good evening</h1>
+            );
         return (
             <div className='App'>
                 <i ref={this.setTriggerRef} className='material-icons settings'>
                     settings_applications
                 </i>
                 <div className='blur'></div>
-                <h1>Good evening Stephen</h1>
+                {greeting}
                 <div>
                     <Clock></Clock>
                 </div>
@@ -49,6 +68,24 @@ export default class App extends Component {
                             close
                         </span>
                         <h1>Settings</h1>
+                        <form onSubmit={async e => {
+
+                            e.preventDefault();
+                            if (this.personalDb) {
+                                const personal = await this.personalDb.updatePersonal({
+                                    name: e.target.name.value
+                                });
+
+                                this.setState({ personal });
+
+                                this.toggleModal();
+                            }
+
+                        }}>
+                            <label>Name</label>
+                            <input type="text" name="name" placeholder="Your Name" />
+                            <button>Set Name</button>
+                        </form>
                     </div>
                 </div>
             </div>
