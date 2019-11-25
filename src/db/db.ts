@@ -4,7 +4,7 @@ export type Todo = {
 	id: number,
 	done: boolean,
 	name: string,
-	dueDate: Date
+	dueDate?: Date
 }
 
 export type PersonConfig = {

@@ -4,6 +4,7 @@ import Todolist from './components/Todolist';
 import Clock from './components/Clock';
 
 import db from "./db/db"
+import Greeting from './components/Greeting';
 
 export default class App extends Component {
     constructor(props) {
@@ -36,18 +37,15 @@ export default class App extends Component {
     }
 
     render() {
-        const greeting = this.state.personal && this.state.personal.name ? (
-            <h1>Good evening {this.state.personal.name}</h1>
-        ) : (
-                <h1>Good evening</h1>
-            );
         return (
             <div className='App'>
                 <i ref={this.setTriggerRef} className='material-icons settings'>
                     settings_applications
                 </i>
                 <div className='blur'></div>
-                {greeting}
+                <Greeting
+                    personal={this.state.personal}
+                />
                 <div>
                     <Clock></Clock>
                 </div>
