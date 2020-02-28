@@ -33,6 +33,12 @@ export default class Widget<Props, S, Db> extends React.Component<Props, State<S
 		const widgetDb = await this.widgetDb;
 		const data = await widgetDb.get();
 
-		this.setState({ data });
+		await this.setState({ data });
+
+		this.onReloadData();
+	}
+
+	onReloadData() {
+		
 	}
 }

@@ -5,92 +5,81 @@ type Props = {
 }
 
 type State = {
-	todos: Todo[]
+	todos: Todos
 }
 
 type Todo = {
 	id: number,
-	done: boolean,
+	isDone: boolean,
 	name: string,
 	dueDate?: Date
 }
 
+type Todos = { [id: number]: Todo };
 
-export default class TodoWidget extends Widget<Props, State, Todo[]> {
+
+export default class TodoWidget extends Widget<Props, State, Todos> {
 	constructor(props: Props) {
 		const initialState = {
-			todos: []
+			todos: {}
 		}
 
 		super("todos:v0.1", props, initialState, []);
 	}
 
+	onReloadData() {
+		if (this.state.data === undefined)
+			throw new Error("Got an undefined todos object from db");
+
+		this.setState({
+			widgetState: {
+				todos: this.state.data
+			}
+		})
+	}
+
 	render() {
-		const todos = this
+		const todos = Object.values(this
 			.state
 			.widgetState
-			.todos
-			.map(todo => <div></div>)
+			.todos)
+			.map(({ id, isDone, name }) => (
+				<div key={id}>
+					<div className={isDone ? 'done' : 'notdone'}>
+						{this.decideDoneIcon(isDone)}
+						<span>{name}</span>
+					</div>
+					<div className='btns'>
+						{this.decideTodoIcon(id, isDone)}
+						<i
+							className='material-icons'
+						// onClick={e => this.deleteTodo(id)}
+						>delete</i>
+					</div>
+				</div>
+			));
+
 		return (
 			<div>
 				{todos}
 			</div>
 		);
 	}
+
+	decideDoneIcon(isDone: boolean) {
+		const iconName = isDone ? 'check_circle_outline' : 'cancel';
+		return <i className='material-icons'>{iconName}</i>;
+	}
+
+	decideTodoIcon(id: any, done: any) {
+		return (
+			// <i onClick={e => this.toggleTodo(id)} className='material-icons'>
+			<i className='material-icons'>
+				{done ? 'cancel' : 'check'}
+			</i>
+		);
+	}
 }
-
-
-// export default class Todolist extends React.Component<any, any> {
-//     todoDb: any;
-//     constructor(props: any) {
-//         super(props);
-
-//         this.state = {
-//             todos: [],
-//             newTodo: ''
-//         };
-//     }
-
-//     async componentDidMount() {
-//         this.todoDb = await db.todos();
-//         this.loadData();
-//     }
-
-//     // DATA
-
-//     async deleteTodo(id: any) {
-//         await this.todoDb.removeTodo(id);
-//         this.loadData();
-//     }
-
-//     async toggleTodo(id: any) {
-//         await this.todoDb.toggleTodo(id);
-//         this.loadData();
-//     }
-
-//     async loadData() {
-//         const todos = await this.todoDb.getTodos();
-//         this.setState({ todos });
-//     }
-
-//     handleTodoChange = (e: any) => {
-//         this.setState({ newTodo: e.target.value });
-//     };
-
-//     async addTodo(e: any) {
-//         e.preventDefault();
-//         // console.log(new Date(e.target.date.value));
-//         await this.todoDb.addTodo({
-//             name: this.state.newTodo,
-//             done: false
-//         });
-//         this.setState({
-//             newTodo: ''
-//         });
-//         this.loadData();
-//     }
-
-//     // RENDER
 
 //     render() {
 //         if (this.state.todos) {
@@ -149,28 +138,3 @@ export default class TodoWidget extends Widget<Props, State, Todo[]> {
 //             );
 //         }
 //     }
-
-//     checkForZeroTodos() {
-//         if (
-//             Object.entries(this.state.todos).length === 0 &&
-//             this.state.todos.constructor === Object
-//         ) {
-//             return <p>There are currently no todos you have set</p>;
-//         }
-//     }
-
-//     decideDoneIcon(done: any) {
-//         return (
-//             <i className='material-icons'>
-//                 {done ? 'check_circle_outline' : 'cancel'}
-//             </i>
-//         );
-//     }
-//     decideTodoIcon(id: any, done: any) {
-//         return (
-//             <i onClick={e => this.toggleTodo(id)} className='material-icons'>
-//                 {done ? 'cancel' : 'check'}
-//             </i>
-//         );
-//     }
-// }
