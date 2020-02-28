@@ -12,7 +12,27 @@ export type PersonConfig = {
 	backgroundImg: string
 }
 
+export type WidgetDb<T> = {
+	get: () => Promise<T>,
+	update: (t: T) => Promise<any>
+}
+
 export default {
+	async getWidgetDb<T>(id: string, def: T): Promise<WidgetDb<T>> {
+		const data = await localForage.getItem(id);
+
+		if (data === null)
+			await localForage.setItem(id, def);
+
+		return {
+			get() {
+				return localForage.getItem(id)
+			},
+			update(t: T) {
+				return localForage.setItem(id, t);
+			}
+		}
+	},
 	async personal() {
 		if ((await localForage.getItem('personal')) === null)
 			await localForage.setItem('personal', {});
