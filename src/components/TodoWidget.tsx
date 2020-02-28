@@ -1,6 +1,44 @@
-import React from 'react';
-// // import './Todolist.scss';
-// import db from '../db/db';
+import React from "react";
+import Widget from "./Widget";
+
+type Props = {
+}
+
+type State = {
+	todos: Todo[]
+}
+
+type Todo = {
+	id: number,
+	done: boolean,
+	name: string,
+	dueDate?: Date
+}
+
+
+export default class TodoWidget extends Widget<Props, State, Todo[]> {
+	constructor(props: Props) {
+		const initialState = {
+			todos: []
+		}
+
+		super("todos:v0.1", props, initialState, []);
+	}
+
+	render() {
+		const todos = this
+			.state
+			.widgetState
+			.todos
+			.map(todo => <div></div>)
+		return (
+			<div>
+				{todos}
+			</div>
+		);
+	}
+}
+
 
 // export default class Todolist extends React.Component<any, any> {
 //     todoDb: any;

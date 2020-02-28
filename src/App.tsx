@@ -1,27 +1,26 @@
-import React, { Component } from 'react';
-import './App.scss';
-import Todolist from './components/Todolist';
+import React from 'react';
+// import './App.scss';
+// import Todolist from './components/Todolist';
 import Clock from './components/Clock';
 
 import db from "./db/db"
 import Greeting from './components/Greeting';
+import ClockWidget from './components/ClockWidget';
+import TodoWidget from './components/TodoWidget';
 
-export default class App extends Component {
-    constructor(props) {
+type Props = any;
+
+type State = any;
+
+export default class App extends React.Component<Props, State> {
+
+    modal: any;
+    personalDb: any;
+
+    constructor(props: any) {
         super(props);
-        this.setTriggerRef = element => {
-            element.addEventListener('click', this.toggleModal);
-        };
-        this.setCloseButtonRef = element => {
-            element.addEventListener('click', this.toggleModal);
-        };
         this.modal = null;
-        this.setModalRef = element => {
-            this.modal = element;
-        };
-        this.toggleModal = () => {
-            this.modal.classList.toggle('show-modal');
-        };
+
         window.addEventListener('click', this.windowOnClick);
 
         this.state = {
@@ -36,10 +35,33 @@ export default class App extends Component {
         });
     }
 
+    setTriggerRef(element: any) {
+        console.log(element);
+        
+        element?.addEventListener('click', () => this.toggleModal());
+    }
+    setCloseButtonRef(element: any) {
+        element?.addEventListener('click', () => this.toggleModal());
+    }
+    windowOnClick(event: any) {
+        if (event.target === this.modal) {
+            this.toggleModal();
+        }
+    }
+    setModalRef(element: any) {
+        this.modal = element;
+    }
+    toggleModal() {
+        this.modal.classList.toggle('show-modal');
+    }
+
     render() {
         return (
             <div className='App'>
-                <i ref={this.setTriggerRef} className='material-icons settings'>
+                <h1>Yeet</h1>
+                {/* <ClockWidget /> */}
+                <TodoWidget />
+                {/* <i ref={(e: any) => this.setTriggerRef(e)} className='material-icons settings'>
                     settings_applications
                 </i>
                 <div className='blur'></div>
@@ -57,16 +79,16 @@ export default class App extends Component {
                         <h2>Test</h2>
                     </div>
                 </div>
-                <div ref={this.setModalRef} className='modal'>
+                <div ref={(e: any) => this.setModalRef(e)} className='modal'>
                     <div className='modal-content'>
                         <span
-                            ref={this.setCloseButtonRef}
+                            ref={(e: any) => this.setCloseButtonRef(e)}
                             className='material-icons closebutton'
                         >
                             close
                         </span>
                         <h1>Settings</h1>
-                        <form onSubmit={async e => {
+                        <form onSubmit={async (e: any) => {
 
                             e.preventDefault();
                             if (this.personalDb) {
@@ -85,14 +107,8 @@ export default class App extends Component {
                             <button>Set Name</button>
                         </form>
                     </div>
-                </div>
+                </div> */}
             </div>
         );
-    }
-
-    windowOnClick(event) {
-        if (event.target === this.modal) {
-            this.toggleModal();
-        }
     }
 }

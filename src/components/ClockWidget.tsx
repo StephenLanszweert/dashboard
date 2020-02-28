@@ -11,12 +11,11 @@ type State = {
 export default class ClockWidget extends Widget<Props, State, {}> {
 
     constructor(props: Props) {
-        super({
-            widgetProps: props,
-            id: "clock:v0.1"
-        }, {
+        const initialState = {
             time: new Date()
-        }, {});
+        }
+
+        super("clock:v0.1", props, initialState, {});
     }
 
     async componentDidMount() {
@@ -29,26 +28,25 @@ export default class ClockWidget extends Widget<Props, State, {}> {
     }
 
     render() {
-        return (
-            <div style={{ textAlign: 'center' }}>
-                <span
-                    style={{
-                        fontSize: 7 + 'rem',
-                        textAlign: 'left'
-                    }}
-                    id='clock'
-                ></span>
-            </div>
+        return (<div style={{ textAlign: 'center' }}>
+            <span
+                style={{
+                    fontSize: 7 + 'rem',
+                    textAlign: 'left'
+                }}
+                id='clock'
+            >{this.time()}</span>
+        </div>
         );
     }
 
     time() {
-        const d = this.state.widgetState.time;
+        const time = this.state.widgetState.time;
 
         const numbers = [
-            d.getHours(),
-            d.getMinutes(),
-            d.getSeconds()
+            time.getHours(),
+            time.getMinutes(),
+            time.getSeconds()
         ]
 
         return numbers
