@@ -7,7 +7,7 @@ type Props<T> = {
 }
 
 type State<T, Db> = {
-	widgetState?: T,
+	widgetState: T,
 	data?: Db
 }
 
@@ -17,13 +17,16 @@ export default class Widget<P, S, Db> extends React.Component<Props<P>, State<S,
 
 	constructor(
 		props: Props<P>,
+		initialState: S,
 		private def: Db
 	) {
 		super(props);
 
 		this.widgetDb = db.getWidgetDb(this.props.id, this.def);
 
-		this.state = {};
+		this.state = {
+			widgetState: initialState
+		};
 	}
 
 	public get id() {
