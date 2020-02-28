@@ -8,7 +8,8 @@ export type Todo = {
 }
 
 export type PersonConfig = {
-	name: string
+	name: string,
+	backgroundImg: string
 }
 
 export default {

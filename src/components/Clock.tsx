@@ -1,11 +1,20 @@
-import React, { Component } from 'react';
+import React from "react";
 
-export default class Clock extends Component {
-    clock = document.getElementById('clock');
-    constructor() {
-        super();
+type Props = {
+}
+
+type State = {
+}
+
+export default class Clock extends React.Component<Props> {
+
+    private clock = document.getElementById('clock') as any;
+
+    constructor(props: Props) {
+        super(props);
         setInterval(this.time, 1000);
     }
+
     render() {
         return (
             <div style={{ textAlign: 'center' }}>

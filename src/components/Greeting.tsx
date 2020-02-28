@@ -1,6 +1,11 @@
 import React from 'react';
+import { PersonConfig } from '../db/db';
 
-export default function Greeting(props) {
+type Props = {
+	personal: PersonConfig
+}
+
+export default function Greeting(props: Props) {
 
 	const currentDate = new Date();
 	const currentHour = currentDate.getHours();

@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './Todolist.scss';
 import db from '../db/db';
 
-export default class Todolist extends Component {
+export default class Todolist extends React.Component {
     constructor(props) {
         super(props);
 
@@ -40,6 +40,7 @@ export default class Todolist extends Component {
 
     async addTodo(e) {
         e.preventDefault();
+        // console.log(new Date(e.target.date.value));
         await this.todoDb.addTodo({
             name: this.state.newTodo,
             done: false
@@ -77,6 +78,11 @@ export default class Todolist extends Component {
                 <div className='todolist'>
                     <h2>TodoList</h2>
                     <form onSubmit={e => this.addTodo(e)}>
+                        {/* <input
+                            name='date'
+                            type='date'
+                            placeholder='New Todo'
+                        /> */}
                         <input
                             name='todo'
                             type='text'
